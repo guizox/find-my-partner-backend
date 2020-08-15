@@ -1,0 +1,10 @@
+api:
+  port: 3000
+  recreatePasswordHash: false
+  runSeeders: true
+
+database:
+  type: 'postgres'
+  port: 5432
+  logging: true
+  synchronize: true

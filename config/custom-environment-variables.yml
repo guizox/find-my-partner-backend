@@ -1,0 +1,8 @@
+api:
+  nodeEnv: 'NODE_ENV'
+
+database:
+  database: 'DATABASE_NAME'
+  host: 'DATABASE_HOST'
+  username: 'DATABASE_USER'
+  password: 'DATABASE_PASSWORD'
