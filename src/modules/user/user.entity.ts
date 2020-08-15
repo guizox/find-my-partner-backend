@@ -6,6 +6,8 @@ import { UserEntityMetaData } from './user-entity.metadata';
 import { ApiEmailProperty } from 'src/api/swagger/property/api-email-property.decorator';
 import { DefaultStringMaxLength } from 'src/database/enum/string-length';
 import { IsValidString } from 'src/api/class-validator/decorator/is-valid-string.decorator';
+import { UserPartnerEntity } from '../user-partner/user-partner.entity';
+import { RelationshipOneToOneInverseSide } from 'src/database/decorator/relationship-one-to-one-inverse-side.decorator';
 
 @TableEntity(UserEntityMetaData.tableName)
 export class User extends CommonEntity {
@@ -41,4 +43,6 @@ export class User extends CommonEntity {
     @StringColumn(UserEntityMetaData.whatsapp)
     whatsapp: string;
 
+    @RelationshipOneToOneInverseSide(() => UserPartnerEntity, 'id')
+    userPartner: UserPartnerEntity;
 }

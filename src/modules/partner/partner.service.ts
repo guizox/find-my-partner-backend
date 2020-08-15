@@ -4,8 +4,9 @@ import { PartnerCreationRequest } from './partner-creation.request';
 import { PartnerRepository } from './partner.repository';
 import { AddressRepository } from '../address/address.repository';
 import { response } from 'express';
+import { UserPartnerRepository } from '../user-partner/user-partner.repository';
 
-const betterReadingLog = (str: any) => {
+export const betterReadingLog = (str: any) => {
 	console.log('***********************************')
 	console.log(JSON.stringify(str))
 	console.log('***********************************')
@@ -17,15 +18,17 @@ export class PartnerService {
 
 	constructor(
 		private readonly partnerRepository: PartnerRepository,
-		private readonly addressRepository: AddressRepository
+		private readonly addressRepository: AddressRepository,
+		private readonly userPartnerRepository: UserPartnerRepository
 	) { }
 
-	createPartner = async (partner: PartnerCreationRequest): Promise<Partner> => {
+	createPartner = async (userId: number, partner: PartnerCreationRequest): Promise<Partner> => {
 		let finalPartner;
 		const { address } = partner;
 
-		await this.partnerRepository.runInTransaction(async manager => {
+		await this.userPartnerRepository.runInTransaction(async manager => {
 			const newPartner = await this.partnerRepository.create({ email: partner.email, name: partner.name, telephone: partner.telephone }, 'system', manager)
+			await this.userPartnerRepository.create({ partnerId: newPartner.id, userId: userId }, 'system', manager)
 			const newAddress = await this.addressRepository.create({
 				city: address.city,
 				street: address.street,
@@ -50,18 +53,20 @@ export class PartnerService {
 		}
 
 		return finalPartner
-
 	}
 
-	getPartners = async (id: number): Promise<Partner[]> => {
-		const partners = await this.partnerRepository.find({})
+	getPartnersByUser = async (id: number): Promise<Partner[]> => {
+		const userPartners = await this.userPartnerRepository.find({ where: { userId: id } });
 		const response = [];
-		for (let partner of partners) {
-			const address = await this.addressRepository.findOne({ where: { partnerId: partner } })
-			partner.address = address;
-			response.push(partner);
+		for (let userPartner of userPartners) {
+			const partners = await this.partnerRepository.find({ where: { id: userPartner.partnerId } })
+			for (let partner of partners) {
+				const address = await this.addressRepository.findOne({ where: { partnerId: partner } })
+				partner.address = address;
+				response.push(partner);
+			}
 		}
+
 		return response;
 	}
-
 }

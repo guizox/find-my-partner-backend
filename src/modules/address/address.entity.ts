@@ -47,7 +47,6 @@ export class Address extends CommonEntity {
     @ApiHideProperty()
     @RelationshipManyToOneOwner(() => Partner, false, 'id')
     @RelationshipJoinColumn(AddressMetaData.partnerId)
-    @RelationshipJoinColumn(AddressMetaData.partnerId)
     partner: Partner;
 
     @ApiEntityIdProperty('The partner id')

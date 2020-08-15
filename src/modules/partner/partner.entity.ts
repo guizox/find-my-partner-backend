@@ -9,6 +9,7 @@ import { IsValidString } from 'src/api/class-validator/decorator/is-valid-string
 import { RelationshipOneToOneInverseSide } from 'src/database/decorator/relationship-one-to-one-inverse-side.decorator';
 
 import { Address } from '../address/address.entity';
+import { UserPartnerEntity } from '../user-partner/user-partner.entity';
 
 @TableEntity(PartnerMetaData.tableName)
 export class Partner extends CommonEntity {
@@ -26,4 +27,7 @@ export class Partner extends CommonEntity {
 
     @RelationshipOneToOneInverseSide(() => Address, 'id')
     address: Address;
+
+    @RelationshipOneToOneInverseSide(() => UserPartnerEntity, 'id')
+    userPartner: UserPartnerEntity;
 }

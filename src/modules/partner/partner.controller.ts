@@ -16,7 +16,7 @@ export class PartnerController {
 
 	@Get(':userId')
 	getPartners(@NumberParam('userId') userId: number): Promise<Partner[]> {
-		return this.partnerService.getPartners(userId)
+		return this.partnerService.getPartnersByUser(userId)
 	}
 
 	@ApiCreationEndpoint(
@@ -30,8 +30,6 @@ export class PartnerController {
 		@Body()
 		request: PartnerCreationRequest,
 	): Promise<Partner> {
-		console.log(userId);
-		console.log(request);
-		return this.partnerService.createPartner(request)
+		return this.partnerService.createPartner(userId, request)
 	}
 }
