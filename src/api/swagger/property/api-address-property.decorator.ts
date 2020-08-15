@@ -1,4 +1,5 @@
-import { ApiStringProperty } from './api-string-property.decorator';
+import { ApiObjectProperty } from './api-object-property.decorator';
+import { AddressCreationRequest } from 'src/modules/address/address-creation.request';
 
 export const ApiAddressProperty = (required: boolean = true) =>
-  ApiStringProperty('Address', required, 'Av. das Nações Unidas');
+  ApiObjectProperty(AddressCreationRequest, 'some address', required)

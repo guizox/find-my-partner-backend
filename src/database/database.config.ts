@@ -37,7 +37,7 @@ export class DatabaseConfig {
   entities: string[];
 }
 
-const _dbConfig = { type: 'postgres', port: 5430, logging: true, synchronize: true, database: 'find_my_partner', host: 'localhost', username: 'find_my_partner', password: '1234' };
+const _dbConfig = config.get<DatabaseConfig>('database');
 console.log(_dbConfig)
 const entities = [__dirname + '/../**/*.entity.{js,ts}'];
 const logger = 'advanced-console';

@@ -26,6 +26,7 @@ export class User extends CommonEntity {
         'password',
     )
     @IsValidString(DefaultStringMaxLength.RegularString, 8)
+    @StringColumn(UserEntityMetaData.password)
     password: string;
 
     @ApiStringProperty('user instagram url', true, 'https://instagram.com/user')

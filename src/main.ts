@@ -7,7 +7,7 @@ dotenv.config({
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { setupSwaggerDocumentation } from './api/swagger-documentation';
-import { validateConfig } from './modules/config';
+import { validateConfig } from './common/config';
 
 async function bootstrap() {
   await validateConfig();
